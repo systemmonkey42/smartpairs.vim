@@ -431,15 +431,17 @@ command! NextPairsToggleUberMode call s:ToggleUberMode()
 if !exists('g:smartpairs_key')
     let g:smartpairs_key = 'v'
 end
-for type in ['v', 'd', 'c', 'y']
-    for mod in ['i', 'a']
-        let cmd = 'nnoremap <silent> ' . type . mod . g:smartpairs_key . '  :<C-U>call <SID>SmartPairs("' . type . '", "' . mod .'")<CR>'
-        if type == 'c' 
-            let cmd .= 'a'
-        endif
-        silent exec cmd
+if get(g:, 'smartpairs_default_maps',1) > 0
+    for type in ['v', 'd', 'c', 'y']
+        for mod in ['i', 'a']
+            let cmd = 'nnoremap <silent> ' . type . mod . g:smartpairs_key . '  :<C-U>call <SID>SmartPairs("' . type . '", "' . mod .'")<CR>'
+            if type == 'c' 
+                let cmd .= 'a'
+            endif
+            silent exec cmd
+        endfor
     endfor
-endfor
+endif
 
 "mapping for next pairs (only for selection mode)
 if !exists('g:smartpairs_nextpairs_key')
